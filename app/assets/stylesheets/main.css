@@ -3093,13 +3093,13 @@
 	}
 
 	#banner {
-		padding: 16em 0 13em 0;
+		padding: 18.15em 0 13em 0;
 		background-attachment: fixed;
-		background-image: url("http://wallpapercave.com/wp/LDJAVJs.jpg"), url("../../images/banner.jpg");
-		background-position: center bottom;
+		background-image: url("http://www.socwall.com/images/wallpapers/17536-3008x2000.jpg"), url("../../images/banner.jpg");
+		background-position: top;
 		background-size: cover;
 		line-height: 1.75;
-		text-align: center;
+		text-align:center;
 	}
 
 		#banner:last-child {
@@ -3115,8 +3115,8 @@
 		}
 
 		#banner p {
-			color: #aaa;
-			font-size: 1.5em;
+			color: #2d3732;
+			font-size: 2em;
 			margin-bottom: 1.75em;
 			text-transform: uppercase;
 		}
