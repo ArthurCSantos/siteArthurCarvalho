@@ -9,7 +9,6 @@
 		<title>Generic - Spatial by TEMPLATED</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body>
 
@@ -20,7 +19,6 @@
 					<ul>
 						<li><a href="/">Início</a></li>
 						<li><a href="/financas">Finanças</a></li>
-						<li><a href="elements.html">Página 2</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -50,7 +48,13 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>R$ 700.00</td>
+									<td>
+										<% soma_recebimentos = 0 %>
+										<% Recebimento.all.each do |recebimento| %>
+										<% soma_recebimentos = soma_recebimentos + recebimento.valor.to_f %>
+										<% end %>
+										<%= number_to_currency(soma_recebimentos, :unit=>"R$") %>
+									</td>
 									<td>R$ 31.00</td>
 									<td>R$ 0.00</td>
 									<td>R$ 0.00</td>
@@ -60,7 +64,31 @@
 						</table>						
 
 		<!-- Tabela dos Recebimentos do Mês -->
-						<h3>Recebimentos &nbsp <i class="fa fa-plus-square"></i></h3>
+						<h3>
+							<div class="js_adicionar_recebimento">                    
+                     			Recebimentos
+                			</div>
+						</h3>
+						
+						<%= form_tag recebimentos_path do %>
+							<table class="alt">
+							<td width="15%">
+						      <%=date_field_tag 'data',nil ,placeholder:'Data'%>
+						    </td>
+						    <td width="70%">
+						      <%=text_field_tag 'descricao',nil, placeholder:'Descrição'%>
+						    </td>
+						    <td width="20%">
+						      <%=text_field_tag 'valor',nil, placeholder:'Valor'%>
+						    </td>
+						    <td>
+						      <%=button_tag do%>
+						      	<i class="fa fa-plus-square"></i>
+						      <% end %>
+						    </td width="5%">
+						    </table>
+					    <% end %>
+
 						<table>
 							<thead>
 								<tr>
@@ -71,23 +99,85 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>01/01/2017</td>
-									<td>Salário RCS</td>
-									<td>R$ 700.00</td>
-									<td><i class="fa fa-trash"></i></td>
-								</tr>
+								<% Recebimento.all.each do |recebimento| %>
+									
+									<tr>
+										<td><%= recebimento.data %></td>
+										<td><%= recebimento.descricao %></td>
+										<td><%= number_to_currency(recebimento.valor, :unit=>"R$") %></td>
+										<td>
+											<%= form_tag recebimentos_path, :method=> :delete do %>
+												<%= hidden_field_tag 'id', recebimento.id %>
+												<%=button_tag do%>
+													<i class="fa fa-trash"></i>
+												<% end %>
+											<% end %>
+										</td>
+									</tr>
+								<% end %>	
 							</tbody>
 							<tfoot>
 								<tr>
 									<td colspan="2"></td>
-									<td>R$ 700.00</td>
+									<td>
+										<% soma_recebimentos = 0 %>
+										<% Recebimento.all.each do |recebimento| %>
+										<% soma_recebimentos = soma_recebimentos + recebimento.valor.to_f %>
+										<% end %>
+										<%= number_to_currency(soma_recebimentos, :unit=>"R$") %>
+									</td>
 								</tr>
 							</tfoot>
 						</table>
 		
 		<!-- Tabela dos Gastos do Mês -->
-						<h3>Gastos &nbsp <i class="fa fa-plus-square"></i></h3>
+						<h3>Gastos</h3>
+						
+						<%= form_tag gastos_path do %>
+							<table class="alt">
+							<td width="15%">
+						      <%=date_field_tag 'data',nil ,placeholder:'Data'%>
+						    </td>
+						    <td width="30%">
+						      <%=text_field_tag 'descricao',nil, placeholder:'Descrição'%>
+						    </td>
+						    <td width="20%">
+						        <div class="select-wrapper">
+											<select name="tipo">
+												<option value="">Tipo</option>
+												<option value="Cinema">Cinema</option>
+												<option value="Estacionamento">Estacionamento</option>
+												<option value="Festa">Festa</option>
+												<option value="Mercado">Mercado</option>
+												<option value="Restaurante">Restaurante</option>
+												<option value="Vestuário">Vestuário</option>
+												<option value="Outros">Outros</option>
+											</select>
+								</div>
+						    </td>
+						    <td width="20%">
+						        <div class="select-wrapper">
+											<select name="forma_pagamento">
+												<option style="color:red" value="">Forma de Pagamento</option>
+												<option value="Débito">Débito</option>
+												<option value="Crédito VISA">CréditoVISA</option>
+												<option value="Crédito AMEX">CréditoAMEX</option>
+												<option value="Dinheiro">Dinheiro</option>
+											</select>
+								</div>
+						    </td>
+						    <td width="20%">
+						      <%=text_field_tag 'valor',nil, placeholder:'Valor'%>
+						    </td>
+						    <td>
+						      <%=button_tag do%>
+						      	<i class="fa fa-plus-square"></i>
+						      <% end %>
+						    </td width="5%">
+						    </table>
+					    <% end %>
+
+
 						<table>
 							<thead>
 								<tr>
@@ -100,35 +190,35 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>01/01/2017</td>
-									<td>Almoço RU</td>
-									<td>Alimentação</td>
-									<td>Débito</td>
-									<td>R$ 10.00</td>
-									<td><i class="fa fa-trash"></i></td>
-								</tr>
-								<tr>
-									<td>02/01/2017</td>
-									<td>Star Wars: Rogue One</td>
-									<td>Cinema</td>
-									<td>Débito</td>
-									<td>R$ 16.00</td>
-									<td><i class="fa fa-trash"></i></td>
-								</tr>
-								<tr>
-									<td>02/01/2017</td>
-									<td>Est. PKS</td>
-									<td>Estacionamento</td>
-									<td>Débito</td>
-									<td>R$ 5.00</td>
-									<td><i class="fa fa-trash"></i></td>
-								</tr>
+								<% Gasto.all.each do |gasto| %>
+									
+									<tr>
+										<td><%= gasto.data %></td>
+										<td><%= gasto.descricao %></td>
+										<td><%= gasto.tipo %></td>
+										<td><%= gasto.forma_pagamento %></td>
+										<td><%= number_to_currency(gasto.valor, :unit=>"R$") %></td>
+										<td>
+											<%= form_tag gastos_path, :method=> :delete do %>
+												<%= hidden_field_tag 'id', gasto.id %>
+												<%=button_tag do%>
+													<i class="fa fa-trash"></i>
+												<% end %>
+											<% end %>
+										</td>
+									</tr>
+								<% end %>	
 							</tbody>
 							<tfoot>
 								<tr>
 									<td colspan="4"></td>
-									<td>R$ 31.00</td>
+									<td>
+									<% soma_gastos = 0 %>
+										<% Gasto.all.each do |gasto| %>
+										<% soma_gastos = soma_gastos + gasto.valor.to_f %>
+										<% end %>
+										<%= number_to_currency(soma_gastos, :unit=>"R$") %>
+									</td>
 								</tr>
 							</tfoot>
 						</table>
@@ -147,11 +237,6 @@
 				</div>
 			</footer>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
 
 	</body>
 </html>

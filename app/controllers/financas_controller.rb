@@ -3,7 +3,7 @@ class FinancasController < ApplicationController
 
 	end
 
-	def adiciona_gasto
+	def adicionar_gasto
 		novo_gasto = Gasto.new
 		novo_gasto.data = params['data']
 		novo_gasto.descricao = params['nome']
@@ -12,16 +12,18 @@ class FinancasController < ApplicationController
 		novo_gasto.valor = params['valor']
 
 		novo_gasto.save!
+		redirect_to :back
 		
 	end
 
-	def adiciona_recebimento
+	def adicionar_recebimento
 		novo_recebimento = Recebimento.new
 		novo_recebimento.data = params['data']
 		novo_recebimento.descricao = params['nome']
 		novo_recebimento.valor = params['valor']
 
 		novo_recebimento.save!
+		redirect_to :back
 		
 	end
 
